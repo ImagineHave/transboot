@@ -2,6 +2,8 @@ package xyz.imaginehave.transboot.transboot.entity;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -24,16 +26,16 @@ public class Account extends Audit {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd") 
     private LocalDate openedDate;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumns({
         @JoinColumn(
             name = "user_name",
             referencedColumnName = "user_name"),
         @JoinColumn(
-            name = "emails",
+            name = "email",
             referencedColumnName = "email")
     })
-    private TransectUser user;
+    private TransectUser transectUser;
 
 	public Long getId() {
 		return id;
@@ -59,12 +61,23 @@ public class Account extends Audit {
 		this.openedDate = openedDate;
 	}
 
-	public TransectUser getUser() {
-		return user;
+	public TransectUser getTransectUser() {
+		return transectUser;
 	}
 
-	public void setUser(TransectUser user) {
-		this.user = user;
+	public void setTransectUser(TransectUser transectUser) {
+		this.transectUser = transectUser;
 	}
+	
+    @Override
+    public String toString()
+    {
+       return new ToStringBuilder(this)
+          .append("id", this.id)
+          .append("accountName", this.accountName)
+          .append("openedDate", this.openedDate)
+          .append("user", this.transectUser)
+          .toString();
+    }
 
 }

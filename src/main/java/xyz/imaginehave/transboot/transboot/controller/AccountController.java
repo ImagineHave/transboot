@@ -28,20 +28,23 @@ public class AccountController {
     
     @PostMapping("/accounts")
     public Account createAccount(@Valid @RequestBody Account account) {
+    	
+    	System.out.println(account);
+    	
         return accountRepository.save(account);
     } 
     
     @PostMapping("/testAccount")
     public Account test() {
     	
-    	TransectUser user = new TransectUser();
-    	user.setId(new TransectUserId("foo","foo@bar.com"));
-    	user.setPassword("password");
+    	TransectUser transectUser = new TransectUser();
+    	transectUser.setId(new TransectUserId("foo","foo@bar.com"));
+    	transectUser.setPassword("password");
     	
-    	userRepository.save(user);
+    	userRepository.save(transectUser);
     	
     	Account account = new Account();
-    	account.setUser(user);
+    	account.setTransectUser(transectUser);
     	
     	System.out.println(account);
     	
