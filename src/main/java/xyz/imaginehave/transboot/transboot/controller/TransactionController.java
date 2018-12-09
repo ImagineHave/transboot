@@ -20,17 +20,20 @@ public class TransactionController {
     @Autowired
     private TransactionRepository transactionRepository;
 	
+    
     @GetMapping("/list")
     public Page<Transaction> getTransactions(Pageable pageable) {
         return transactionRepository.findAll(pageable);
     }
+    
     
     @PostMapping("/create")
     public Transaction createTransaction(@Valid @RequestBody Transaction transaction) {
     	System.out.println(transaction);
         return transactionRepository.save(transaction);
     } 
-        
+       
+    
     @PostMapping("/bulk_create")
     public void createAccounts(@Valid @RequestBody List<Transaction> transactions) {
     	for(Transaction transaction : transactions) {

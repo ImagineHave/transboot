@@ -6,8 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import xyz.imaginehave.transboot.transboot.entity.Account;
 import xyz.imaginehave.transboot.transboot.repository.AccountRepository;
@@ -19,17 +17,20 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 	
-    @GetMapping("/list")
-    public Page<Account> getAccounts(Pageable pageable) {
-        return accountRepository.findAll(pageable);
+
+    @GetMapping("/{id}")
+    public List<Account> getAccount(@PathVariable Long id) {
+    	return accountRepository.findAllByTransectUserId(id);
     }
     
-    @PostMapping("/create")
+    
+    @PostMapping("/")
     public Account createAccount(@Valid @RequestBody Account account) {
         return accountRepository.save(account);
     } 
     
-    @PostMapping("/bulk_create")
+    
+    @PostMapping("/bulk")
     public void createAccounts(@Valid @RequestBody List<Account> accounts) {
     	for(Account account : accounts) {
     		accountRepository.save(account);

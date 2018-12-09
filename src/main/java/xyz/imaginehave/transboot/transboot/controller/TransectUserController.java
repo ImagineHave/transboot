@@ -4,9 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
+import xyz.imaginehave.transboot.transboot.controller.exceptions.TransectUserNotFoundException;
 import xyz.imaginehave.transboot.transboot.entity.TransectUser;
 import xyz.imaginehave.transboot.transboot.repository.TransectUserRepository;
 
@@ -17,14 +16,23 @@ public class TransectUserController {
     @Autowired
     private TransectUserRepository transectUserRepository;
 	
-    @GetMapping("/list")
-    public Page<TransectUser> getUsers(Pageable pageable) {
-        return transectUserRepository.findAll(pageable);
-    }
     
-    @PostMapping("/create")
-    public TransectUser createUser(@Valid @RequestBody TransectUser user) {
+	@GetMapping("/{id}")
+	TransectUser one(@PathVariable Long id) {
+		return transectUserRepository.findById(id)
+			.orElseThrow(() -> new TransectUserNotFoundException(id));
+	}
+    
+	
+    @PostMapping("/")
+    TransectUser createUser(@Valid @RequestBody TransectUser user) {
         return transectUserRepository.save(user);
     } 
+    
+    
+	@DeleteMapping("/{id}")
+	void deleteEmployee(@PathVariable Long id) {
+		transectUserRepository.deleteById(id);
+	}
         
 }
