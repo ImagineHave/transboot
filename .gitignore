@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
@@ -25,9 +23,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-=======
-=======
->>>>>>> 8073b350141e45f032891d71442d408985f76abe
+
 # Compiled class file
 *.class
 
