@@ -1,6 +1,10 @@
 package xyz.imaginehave.transboot.transboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +18,8 @@ import java.util.Date;
         value = {"createdAt", "updatedAt"},
         allowGetters = true
 )
+@Data
+@EqualsAndHashCode(callSuper=false)
 public abstract class Audit implements Serializable {
 	
     /**

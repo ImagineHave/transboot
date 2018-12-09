@@ -1,17 +1,17 @@
 package xyz.imaginehave.transboot.transboot.entity;
 
 import javax.persistence.*;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Transaction extends Audit {
 
     /**
@@ -23,6 +23,7 @@ public class Transaction extends Audit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     
+	@Column(name = "amount")
     private BigDecimal amount;
     
     @Column
@@ -62,96 +63,5 @@ public class Transaction extends Audit {
             referencedColumnName = "user_name")
     })
     private TransectUser transectUser;
-    
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	
-    public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public Account getPayer() {
-		return payer;
-	}
-
-	public void setPayer(Account payer) {
-		this.payer = payer;
-	}
-
-	public Account getPayee() {
-		return payee;
-	}
-
-	public void setPayee(Account payee) {
-		this.payee = payee;
-	}
-
-	public TransectUser getTransectUser() {
-		return transectUser;
-	}
-
-	public void setTransectUser(TransectUser transectUser) {
-		this.transectUser = transectUser;
-	}
-
-	@Override
-    public int hashCode()
-    {
-       return new HashCodeBuilder()
-          .append(this.transectUser)
-          .append(this.payer)
-          .append(this.payee)
-          .append(this.date)
-          .toHashCode();
-    }
-    
-    @Override
-    public String toString()
-    {
-       return new ToStringBuilder(this)
-          .append("user", this.transectUser)
-          .append("payer", this.payer)
-          .append("payee", this.payee)
-          .append("date", this.date)
-          .toString();
-    }
-    
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-       if (obj instanceof Transaction == false)
-       {
-         return false;
-       }
-       final Transaction otherObject = (Transaction) obj;
-
-       return new EqualsBuilder()
-    		   .append(this.transectUser, otherObject.transectUser)
-    		   .append(this.payer, otherObject.payer)
-    		   .append(this.payee, otherObject.payee)
-    		   .append(this.date, otherObject.date)
-    		   .isEquals();
-    }
-    
 
 }
