@@ -20,6 +20,7 @@ public class Account extends Audit {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 	
+	@Column(name = "account_name")
     private String accountName;
     
     @Column

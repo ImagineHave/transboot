@@ -1,5 +1,7 @@
 package xyz.imaginehave.transboot.transboot.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +28,18 @@ public class AccountController {
         return accountRepository.findAll(pageable);
     }
     
-    @PostMapping("/accounts")
+    @PostMapping("/account")
     public Account createAccount(@Valid @RequestBody Account account) {
-    	
-    	System.out.println(account);
-    	
         return accountRepository.save(account);
     } 
     
+    @PostMapping("/accounts")
+    public void createAccounts(@Valid @RequestBody List<Account> accounts) {
+    	for(Account account : accounts) {
+    		accountRepository.save(account);
+    	}
+    }  
+   
     @PostMapping("/testAccount")
     public Account test() {
     	

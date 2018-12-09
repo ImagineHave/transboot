@@ -19,10 +19,25 @@ public class Transaction extends Audit {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 	
-	@ManyToOne(optional = false)
+	
+    @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(
+            name = "account_name",
+            referencedColumnName = "account_name", 
+            insertable=false, 
+            updatable=false)
+    })
     private Account payer;
     
     @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(
+                name = "account_name",
+                referencedColumnName = "account_name", 
+                insertable=false, 
+                updatable=false)
+    })
     private Account payee;
     
     private BigDecimal amount;
