@@ -13,22 +13,23 @@ import xyz.imaginehave.transboot.transboot.entity.Account;
 import xyz.imaginehave.transboot.transboot.repository.AccountRepository;
 
 @RestController
+@RequestMapping("/accounts")
 public class AccountController {
 
     @Autowired
     private AccountRepository accountRepository;
 	
-    @GetMapping("/accounts")
+    @GetMapping("/list")
     public Page<Account> getAccounts(Pageable pageable) {
         return accountRepository.findAll(pageable);
     }
     
-    @PostMapping("/account")
+    @PostMapping("/create")
     public Account createAccount(@Valid @RequestBody Account account) {
         return accountRepository.save(account);
     } 
     
-    @PostMapping("/accounts")
+    @PostMapping("/bulk_create")
     public void createAccounts(@Valid @RequestBody List<Account> accounts) {
     	for(Account account : accounts) {
     		accountRepository.save(account);

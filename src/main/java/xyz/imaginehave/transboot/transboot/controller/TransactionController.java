@@ -11,17 +11,18 @@ import xyz.imaginehave.transboot.transboot.entity.Transaction;
 import xyz.imaginehave.transboot.transboot.repository.TransactionRepository;
 
 @RestController
+@RequestMapping("/transactions")
 public class TransactionController {
 
     @Autowired
     private TransactionRepository transactionRepository;
 	
-    @GetMapping("/transactions")
+    @GetMapping("/list")
     public Page<Transaction> getTransactions(Pageable pageable) {
         return transactionRepository.findAll(pageable);
     }
     
-    @PostMapping("/transaction")
+    @PostMapping("/create")
     public Transaction createTransaction(@Valid @RequestBody Transaction transaction) {
     	System.out.println(transaction);
         return transactionRepository.save(transaction);

@@ -8,9 +8,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import xyz.imaginehave.transboot.transboot.entity.TransectUser.TransectUserId;
-
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -22,17 +19,56 @@ public class Transaction extends Audit {
 	 */
 	private static final long serialVersionUID = 8204157116215472352L;
 
-	@EmbeddedId
-	private TransactionId id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
     
     private BigDecimal amount;
     
+    @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd") 
+    private LocalDate date;
+    
+    @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(
+            name = "payer",
+            referencedColumnName = "account_name"),
+        @JoinColumn(
+            name = "payer_id",
+            referencedColumnName = "id")
+    })
+    private Account payer;
+    
+    @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(
+            name = "payee",
+            referencedColumnName = "account_name"),
+        @JoinColumn(
+            name = "payee_id",
+            referencedColumnName = "id")
+    })
+    private Account payee;
+    
+    
+    @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"),
+        @JoinColumn(
+            name = "user_name",
+            referencedColumnName = "user_name")
+    })
+    private TransectUser transectUser;
+    
 
-	public TransactionId getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(TransactionId id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -44,128 +80,78 @@ public class Transaction extends Audit {
 		this.amount = amount;
 	}
 
+	
+    public LocalDate getDate() {
+		return date;
+	}
 
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public Account getPayer() {
+		return payer;
+	}
+
+	public void setPayer(Account payer) {
+		this.payer = payer;
+	}
+
+	public Account getPayee() {
+		return payee;
+	}
+
+	public void setPayee(Account payee) {
+		this.payee = payee;
+	}
+
+	public TransectUser getTransectUser() {
+		return transectUser;
+	}
+
+	public void setTransectUser(TransectUser transectUser) {
+		this.transectUser = transectUser;
+	}
+
+	@Override
+    public int hashCode()
+    {
+       return new HashCodeBuilder()
+          .append(this.transectUser)
+          .append(this.payer)
+          .append(this.payee)
+          .append(this.date)
+          .toHashCode();
+    }
+    
     @Override
     public String toString()
     {
        return new ToStringBuilder(this)
-          .append("id", this.id)
-          .append("amount", this.amount)
+          .append("user", this.transectUser)
+          .append("payer", this.payer)
+          .append("payee", this.payee)
+          .append("date", this.date)
           .toString();
     }
     
-	@Embeddable
-	public static class TransactionId implements Serializable {
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+       if (obj instanceof Transaction == false)
+       {
+         return false;
+       }
+       final Transaction otherObject = (Transaction) obj;
 
+       return new EqualsBuilder()
+    		   .append(this.transectUser, otherObject.transectUser)
+    		   .append(this.payer, otherObject.payer)
+    		   .append(this.payee, otherObject.payee)
+    		   .append(this.date, otherObject.date)
+    		   .isEquals();
+    }
+    
 
-		private static final long serialVersionUID = -5536212139875110322L;
-		
-	    @ManyToOne(optional = false)
-	    @JoinColumns({
-	        @JoinColumn(
-	            name = "payer",
-	            referencedColumnName = "account_name")
-	    })
-	    private Account payer;
-	    
-	    @ManyToOne(optional = false)
-	    @JoinColumns({
-	        @JoinColumn(
-	            name = "payee",
-	            referencedColumnName = "account_name")
-	    })
-	    private Account payee;
-	    
-	    
-	    @ManyToOne(optional = false)
-	    @JoinColumns({
-	        @JoinColumn(
-	            name = "user_name",
-	            referencedColumnName = "user_name"),
-	        @JoinColumn(
-	            name = "email",
-	            referencedColumnName = "email")
-	    })
-	    private TransectUser transectUser;
-	    
-	    @Column
-	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd") 
-	    private LocalDate date;
-
-		public TransactionId() {
-			
-		}
-
-		public Account getPayer() {
-			return payer;
-		}
-
-		public void setPayer(Account payer) {
-			this.payer = payer;
-		}
-
-		public Account getPayee() {
-			return payee;
-		}
-
-		public void setPayee(Account payee) {
-			this.payee = payee;
-		}
-
-		public TransectUser getTransectUser() {
-			return transectUser;
-		}
-
-		public void setTransectUser(TransectUser transectUser) {
-			this.transectUser = transectUser;
-		}
-
-		public LocalDate getDate() {
-			return date;
-		}
-
-		public void setDate(LocalDate date) {
-			this.date = date;
-		}
-		
-	    @Override
-	    public int hashCode()
-	    {
-	       return new HashCodeBuilder()
-	          .append(this.transectUser)
-	          .append(this.payer)
-	          .append(this.payee)
-	          .append(this.date)
-	          .toHashCode();
-	    }
-	    
-	    @Override
-	    public String toString()
-	    {
-	       return new ToStringBuilder(this)
-	 	          .append("user", this.transectUser)
-		          .append("payer", this.payer)
-		          .append("payee", this.payee)
-		          .append("date", this.date)
-	          .toString();
-	    }
-	    
-	    
-	    @Override
-	    public boolean equals(Object obj)
-	    {
-	       if (obj instanceof TransactionId == false)
-	       {
-	         return false;
-	       }
-	       final TransactionId otherObject = (TransactionId) obj;
-
-	       return new EqualsBuilder()
- 	          .append(this.transectUser, otherObject.transectUser)
-	          .append(this.payer, otherObject.payer)
-	          .append(this.payee, otherObject.payee)
-	          .append(this.date, otherObject.date)
-	          .isEquals();
-	    }		
-	}
 }

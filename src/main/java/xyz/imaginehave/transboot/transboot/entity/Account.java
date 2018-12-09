@@ -2,6 +2,8 @@ package xyz.imaginehave.transboot.transboot.entity;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,10 +19,10 @@ public class Account extends Audit {
 	private static final long serialVersionUID = 8085310684289086942L;
 
 	
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-	
-    @Id
+    
 	@Column(name = "account_name")
     private String accountName;
     
@@ -31,11 +33,11 @@ public class Account extends Audit {
     @ManyToOne(optional = false)
     @JoinColumns({
         @JoinColumn(
-            name = "user_name",
-            referencedColumnName = "user_name"),
+            name = "user_id",
+            referencedColumnName = "id"),
         @JoinColumn(
-            name = "email",
-            referencedColumnName = "email")
+            name = "user_name",
+            referencedColumnName = "user_name")
     })
     private TransectUser transectUser;
 
@@ -75,11 +77,36 @@ public class Account extends Audit {
     public String toString()
     {
        return new ToStringBuilder(this)
-          .append("id", this.id)
-          .append("accountName", this.accountName)
-          .append("openedDate", this.openedDate)
-          .append("user", this.transectUser)
-          .toString();
+    		   .append("id", this.id)
+    		   .append("accountName", this.accountName)
+    		   .append("openedDate", this.openedDate)
+    		   .append("transectUser", this.transectUser)
+    		   .toString();
+    }
+    
+    @Override
+    public int hashCode()
+    {
+       return new HashCodeBuilder()
+    		   .append(this.id)
+    		   .append(this.accountName)
+    		   .append(this.openedDate)
+    		   .append(this.transectUser)
+    		   .toHashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+       if (obj instanceof Account == false)
+       {
+         return false;
+       }
+       final Account otherObject = (Account) obj;
+
+       return new EqualsBuilder()
+          .append(this.id, otherObject.id)
+          .isEquals();
     }
 
 }

@@ -11,17 +11,18 @@ import xyz.imaginehave.transboot.transboot.entity.TransectUser;
 import xyz.imaginehave.transboot.transboot.repository.TransectUserRepository;
 
 @RestController
+@RequestMapping("/users")
 public class TransectUserController {
 
     @Autowired
     private TransectUserRepository transectUserRepository;
 	
-    @GetMapping("/users")
+    @GetMapping("/list")
     public Page<TransectUser> getUsers(Pageable pageable) {
         return transectUserRepository.findAll(pageable);
     }
     
-    @PostMapping("/user")
+    @PostMapping("/create")
     public TransectUser createUser(@Valid @RequestBody TransectUser user) {
         return transectUserRepository.save(user);
     } 
