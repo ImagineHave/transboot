@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 
 import xyz.imaginehave.transboot.transboot.entity.Account;
 import xyz.imaginehave.transboot.transboot.repository.AccountRepository;
-import xyz.imaginehave.transboot.transboot.repository.TransectUserRepository;
 
 @RestController
 public class AccountController {

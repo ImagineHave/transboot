@@ -16,13 +16,14 @@ public class TransactionController {
     @Autowired
     private TransactionRepository transactionRepository;
 	
-    @GetMapping("/tranactions")
+    @GetMapping("/transactions")
     public Page<Transaction> getTransactions(Pageable pageable) {
         return transactionRepository.findAll(pageable);
     }
     
-    @PostMapping("/tranaction")
+    @PostMapping("/transaction")
     public Transaction createTransaction(@Valid @RequestBody Transaction transaction) {
+    	System.out.println(transaction);
         return transactionRepository.save(transaction);
     } 
         

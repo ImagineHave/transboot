@@ -16,10 +16,11 @@ public class Account extends Audit {
 	 */
 	private static final long serialVersionUID = 8085310684289086942L;
 
-	@Id
+	
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 	
+    @Id
 	@Column(name = "account_name")
     private String accountName;
     
