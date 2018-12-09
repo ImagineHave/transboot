@@ -1,47 +1,32 @@
 # transboot
 
-# localhost:8080/user
+# localhost:8080/users/create
 
 {
-	"id" : {"userName": "some username", "email": "this@blah.com"},
-	"password": "this is a password"
+	"userName": "some username"
 }
 
-# localhost:8080/account
-
-{
-	"accountName": "another account name",
-	"openedDate": "20180101",
-	"transectUser": { "id": {"userName": "some username", "email": "this@blah.com"}}
-}
-
-# localhost:8080/accounts
+# localhost:8080/accounts/bulk_create
 
 [{
 	"accountName": "another account name",
 	"openedDate": "20180101",
-	"transectUser": { "id": {"userName": "some username", "email": "this@blah.com"}}
+	"transectUser": {"userName": "some username", "id": "1"}
 },
 {
 	"accountName": "some account name",
-	"openedDate": "20180101",
-	"transectUser": { "id": {"userName": "some username", "email": "this@blah.com"}}
+	"openedDate": "20180102",
+	"transectUser": {"userName": "some username", "id": "1"}
 }
 ]
 
-# localhost:8080/transaction
 
-{ 
-	"id":{
-		"date":"20181209",
-		"transectUser": { 
-			"id": {
-				"userName": "some username", 
-				"email": "this@blah.com"
-			}
-		},
-		"payer":{"accountName":"some account name"},
-		"payee":{"accountName":"another account name"}
-	},
-	"amount":1000
+# localhost:8080/transactions/create
+
+{
+	"amount":1000,
+	"date":"20181209",
+	"transectUser": {"userName": "some username", "id": "1"},
+	"payer":{"accountName":"some account name", "id":2},
+	"payee":{"accountName":"another account name", "id":1}
 }
