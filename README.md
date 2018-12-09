@@ -28,3 +28,20 @@
 	"transectUser": { "id": {"userName": "some username", "email": "this@blah.com"}}
 }
 ]
+
+# localhost:8080/transaction
+
+{ 
+	"id":{
+		"date":"20181209",
+		"transectUser": { 
+			"id": {
+				"userName": "some username", 
+				"email": "this@blah.com"
+			}
+		},
+		"payer":{"accountName":"some account name"},
+		"payee":{"accountName":"another account name"}
+	},
+	"amount":1000
+}
