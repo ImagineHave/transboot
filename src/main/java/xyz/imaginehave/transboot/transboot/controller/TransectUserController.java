@@ -22,8 +22,8 @@ public class TransectUserController {
     }
     
     @PostMapping("/user")
-    public TransectUser createAccount(@Valid @RequestBody TransectUser account) {
-        return transectUserRepository.save(account);
+    public TransectUser createUser(@Valid @RequestBody TransectUser user) {
+        return transectUserRepository.save(user);
     } 
         
 }

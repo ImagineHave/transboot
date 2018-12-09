@@ -20,6 +20,8 @@ public class TransectUser extends Audit {
 	
 	@EmbeddedId
 	private TransectUserId id;
+
+	private String password;
 	
 	public TransectUserId getId() {
 		return id;
@@ -28,6 +30,23 @@ public class TransectUser extends Audit {
 	public void setId(TransectUserId id) {
 		this.id = id;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
+    @Override
+    public String toString()
+    {
+       return new ToStringBuilder(this)
+          .append("id", this.id)
+          .toString();
+    }
 
 
 	@Embeddable
@@ -36,10 +55,10 @@ public class TransectUser extends Audit {
 
 		private static final long serialVersionUID = -5536212139875110322L;
 
-		@Column(name = "user_name")
+		@Column(name = "user_name", nullable = false)
 		private String userName;
 		
-		@Column(name = "email")
+		@Column(name = "email", nullable = false)
 		private String email;
 		
 		public TransectUserId() {

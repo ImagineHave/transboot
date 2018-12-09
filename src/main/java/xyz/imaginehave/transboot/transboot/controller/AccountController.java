@@ -36,6 +36,7 @@ public class AccountController {
     	
     	TransectUser user = new TransectUser();
     	user.setId(new TransectUserId("foo","foo@bar.com"));
+    	user.setPassword("password");
     	
     	userRepository.save(user);
     	
