@@ -3,16 +3,10 @@ package xyz.imaginehave.transboot.transboot.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Entity
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 public class Account extends Audit {
 
     /**
@@ -30,12 +24,47 @@ public class Account extends Audit {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd") 
     private LocalDate openedDate;
     
-    
-    private ArrayList<Transaction> transactions;
-    
-    
-    private String user;
-    
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(
+            name = "user_name",
+            referencedColumnName = "user_name"),
+        @JoinColumn(
+            name = "emails",
+            referencedColumnName = "email")
+    })
+    private TransectUser user;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public LocalDate getOpenedDate() {
+		return openedDate;
+	}
+
+	public void setOpenedDate(LocalDate openedDate) {
+		this.openedDate = openedDate;
+	}
+
+	public TransectUser getUser() {
+		return user;
+	}
+
+	public void setUser(TransectUser user) {
+		this.user = user;
+	}
 
 }
